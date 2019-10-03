@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/task_list.dart';
 import 'package:todoey_flutter/screens/add_task_screen.dart';
 import 'package:todoey_flutter/models/task.dart';
+import 'package:todoey_flutter/models/task_list_model.dart';
+import 'package:provider/provider.dart';
 
-class TaskScreen extends StatefulWidget {
-  @override
-  _TaskScreenState createState() => _TaskScreenState();
-}
-
-class _TaskScreenState extends State<TaskScreen> {
-  List<Task> taskList = [
-    Task(name: "Buy bread"),
-    Task(name: "Buy milk"),
-    Task(name: "Buy potato"),
-    Task(name: "Buy meat"),
-    Task(name: "Buy ", isDone: true),
-  ];
+class TaskScreen extends StatelessWidget {
+//  List<Task> taskList = [
+//    Task(name: "Buy bread"),
+//    Task(name: "Buy milk"),
+//    Task(name: "Buy potato"),
+//    Task(name: "Buy meat"),
+//    Task(name: "Buy ", isDone: true),
+//  ];
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +52,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   ),
                 ),
                 Text(
-                  '${taskList.length} Tasks',
+                  '${Provider.of<TaskListModel>(context).tasks.length} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -76,9 +73,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(
-                taskList: taskList,
-              ),
+              child: TasksList(),
             ),
           ),
         ],
@@ -92,9 +87,9 @@ class _TaskScreenState extends State<TaskScreen> {
             context: context,
             builder: (context) => AddTaskScreen(
               addTaskCallback: (taskString) {
-                setState(() {
-                  taskList.add(Task(name: taskString));
-                });
+//                setState(() {
+                Provider.of<TaskListModel>(context).add(Task(name: taskString));
+//                });
                 Navigator.pop(context);
               },
             ),
